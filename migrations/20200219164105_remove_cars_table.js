@@ -1,14 +1,17 @@
 
 exports.up = function(knex) {
-  //changes to apply to database
-exports.up = function(knex) {
-    //DO NOT FORGET TO RETURN
+    return knex.schema.dropTableIfExists('cars');
+   
+};
+
+exports.down = function(knex) {
     return knex.schema.createTable('cars', tbl => {
         //ads an id column that auto increments
         tbl.increments(); //primary key (id)
         tbl
             .string('VIN')
             .notNullable()
+            .unique()
             .index(); // makes searching by name faster
         
         tbl
@@ -21,9 +24,8 @@ exports.up = function(knex) {
             .notNullable()
             .index();
         tbl
-            .string('mileage', 128)
+            .integer('mileage')
             .notNullable()
-            .index();
         tbl
             .string('transmission', 128).defaultTo('unknown')
             .nullable();
@@ -31,14 +33,4 @@ exports.up = function(knex) {
             .string('title', 128).defaultTo('unknown')
             .nullable();
     })
-};
-//how to undo the changes
-exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('cars');
-};
-
-};
-
-exports.down = function(knex) {
-  
 };

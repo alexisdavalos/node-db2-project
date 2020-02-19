@@ -1,8 +1,9 @@
 
 exports.up = function(knex) {
-  //changes to apply to database
-exports.up = function(knex) {
-    //DO NOT FORGET TO RETURN
+    return knex.schema.dropTableIfExists('cars');
+};
+
+exports.down = function(knex) {
     return knex.schema.createTable('cars', tbl => {
         //ads an id column that auto increments
         tbl.increments(); //primary key (id)
@@ -31,14 +32,4 @@ exports.up = function(knex) {
             .string('title', 128).defaultTo('unknown')
             .nullable();
     })
-};
-//how to undo the changes
-exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('cars');
-};
-
-};
-
-exports.down = function(knex) {
-  
 };
