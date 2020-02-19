@@ -50,7 +50,6 @@ router.put("/:id", (req, res) => {
 
 //Delete Routes
 router.delete("/:id", (req, res) => {
-    const {id} = req.params;
     db('cars').where({id: req.params.id}).del()
     .then(count => {
         if(count) {
