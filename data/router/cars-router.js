@@ -20,22 +20,16 @@ router.get("/:id", (req, res) => {
 });
 
 //Post Routes
-router.post("/", (req, res) => {
-    db("cars")
-    .insert(req.body, "id")
+router.post('/', (req, res) => {
+    const userData = req.body;
+    db('cars').insert(userData)
     .then(ids => {
-        db("cars")
-      .where(ids[0])
-      .first()
-      .then(inserted => {
-          res.status(201).json(inserted);
-      });
-    }).catch(error => {
-        console.log(error);
-    
-        res.status(500).json({ error: "failed to add the car" });
-        })
-});
+      res.status(201).json({ id: ids[0] });
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to create new user' });
+    });
+  });
 
 //Put Routes
 router.put("/:id", (req, res) => {
@@ -44,7 +38,17 @@ router.put("/:id", (req, res) => {
 
 //Delete Routes
 router.delete("/:id", (req, res) => {
-
+    const {id} = req.params;
+    db('cars').where({id}).del()
+    .then(count => {
+        if(count) {
+            res.json({removed: count});
+        }else{
+            res.status(404).json({message: 'could not find car with that id'})
+        }
+    }).catch(err =>{
+        res.status(500).json({message: 'Failed to delete user'});
+    })
 });
 
 
